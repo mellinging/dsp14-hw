@@ -1,0 +1,44 @@
+#!/bin/bash
+set -x
+
+DIRNAME=hw1_R02944024
+
+rm -rf tmp/$DIRNAME
+mkdir -p tmp/$DIRNAME
+
+# Copy Source Files
+cp train.cpp tmp/$DIRNAME
+cp test.cpp tmp/$DIRNAME
+cp Makefile tmp/$DIRNAME
+cp gen_acc tmp/$DIRNAME
+
+# Rebuild Program
+make clean
+make
+
+# Run Train
+ITER=${1:-1000}
+./train $ITER data/model_init.txt data/seq_01.txt tmp/$DIRNAME/model_01.txt
+./train $ITER data/model_init.txt data/seq_02.txt tmp/$DIRNAME/model_02.txt
+./train $ITER data/model_init.txt data/seq_03.txt tmp/$DIRNAME/model_03.txt
+./train $ITER data/model_init.txt data/seq_04.txt tmp/$DIRNAME/model_04.txt
+./train $ITER data/model_init.txt data/seq_05.txt tmp/$DIRNAME/model_05.txt
+
+# Run Test
+cp data/modellist.txt tmp/model_list.txt
+cd tmp/$DIRNAME
+../../test ../model_list.txt ../../data/testing_data1.txt result1.txt
+../../test ../model_list.txt ../../data/testing_data2.txt result2.txt
+../../gen_acc result1.txt ../../data/testing_answer.txt acc.txt
+cd ../..
+
+# Print Accuracy
+cat tmp/$DIRNAME/acc.txt
+
+# Export Report as PDF
+gimli -file README.md -outputdir tmp/$DIRNAME -outputfilename Document
+
+# Archive
+cd tmp
+zip -r hw1_R02944024.zip hw1_R02944024
+cd ..

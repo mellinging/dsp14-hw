@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+correct, total = 0, 0
+
+begin
+  test_file = File.open(ARGV[0], 'r')
+  ans_file = File.open(ARGV[1], 'r')
+
+  loop do
+    test_model, test_prob = test_file.readline.split
+    ans_model = ans_file.readline.strip
+    correct += 1 if test_model == ans_model
+    total += 1
+  end
+rescue EOFError
+  puts "CORRECT: #{correct}/#{total}"
+  File.write(ARGV[2], "#{ Float(correct) / Float(total) }\n")
+ensure
+  test_file.close unless test_file.closed?
+  ans_file.close unless ans_file.closed?
+end
