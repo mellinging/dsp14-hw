@@ -1,0 +1,41 @@
+# Contributor: David Lin <davll.xc@gmail.com>
+
+pkgname=dsp-htk
+pkgver=3.4.1
+pkgrel=4
+pkgdesc="The Hidden Markov Model Toolkit (HTK)"
+arch=(i686 x86_64)
+url="http://htk.eng.cam.ac.uk/"
+license=('custom: Proprietary')
+provides=(htk)
+depends=(lib32-glibc lib32-libx11)
+makedepends=('gcc-multilib')
+options=('!makeflags')
+source=(http://speech.ee.ntu.edu.tw/homework/DSP_HW2-1/HTK-3.4.1.zip)
+md5sums=('de8e66991694820bb899813fea57da34')
+conflicts=(htk)
+
+prepare() {
+  # substitute spaces instead of tabs in Makefile-rule
+  patch  ${srcdir}/htk/HLMTools/Makefile.in ${startdir}/mkfile.in.patch
+  # fix permissions
+  cd ${srcdir}/htk
+  chmod a+x configure
+}
+
+build() {
+  # make the stuff
+  cd ${srcdir}/htk
+  ./configure --prefix=${pkgdir}/usr
+  make all
+}
+
+package() {
+  # create a needed dir
+  install -d ${pkgdir}/usr/bin
+  # install binaries
+  cd ${srcdir}/htk
+  make install
+  # install License
+  install -D -m644 LICENSE ${pkgdir}/usr/share/licenses/$pkgname/LICENSE
+}

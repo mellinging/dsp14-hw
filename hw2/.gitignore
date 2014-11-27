@@ -1,1 +1,14 @@
 /tmp
+
+# Ignore HTK workspace
+/MFCC
+/hmm
+/result
+
+# Ignore Binaries
+/bin/models_1mixsil
+/bin/macro
+/bin/spmodel_gen
+
+# Ignore Sound Data
+/speechdata
