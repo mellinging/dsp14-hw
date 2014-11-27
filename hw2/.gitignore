@@ -11,4 +11,4 @@
 /bin/spmodel_gen
 
 # Ignore Sound Data
-/speechdata
+# /speechdata
