@@ -1,5 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8
 from argparse import ArgumentParser
-import io, subprocess as sp
+import io, subprocess as sp, sys
 
 def parse_args():
     parser = ArgumentParser()
@@ -28,4 +30,5 @@ for line in content.split('\n'):
 for key in bopomofo:
     value = ' '.join(bopomofo[key])
     s = "{}\t{}".format(key, value)
-    print(s)
+    b = s.encode('utf-8')
+    sys.stdout.buffer.write(b)
