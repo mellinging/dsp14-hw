@@ -1,0 +1,46 @@
+# Contributor: David Lin <davll.xc@gmail.com>
+
+pkgname=dsp-srilm
+pkgver=1.5.10
+pkgrel=1
+pkgdesc="The SRI Language Modeling Toolkit"
+arch=(i686 x86_64)
+url="http://www.speech.sri.com/projects/srilm/"
+license=('custom: Proprietary')
+provides=(srilm)
+depends=(tcl)
+makedepends=('gcc-multilib')
+options=()
+source=('http://speech.ee.ntu.edu.tw/homework/DSP_HW3/srilm-1.5.10.tar.gz')
+sha1sums=('f3b8a03ebb86d354a719973778af52388603cfe2')
+conflicts=(srilm)
+
+prepare() {
+  cp $startdir/Makefile.machine.linux $srcdir/srilm-$pkgver/common/
+}
+
+build() {
+  # make the stuff
+  cd ${srcdir}/srilm-${pkgver}
+  export SRILM=$srcdir/srilm-$pkgver
+  make World MACHINE_TYPE=linux
+  make cleanest MACHINE_TYPE=linux
+}
+
+package() {
+  cd $srcdir/srilm-$pkgver
+  install -d $pkgdir/opt
+  cp -r ./ $pkgdir/opt/srilm
+  #for f in bin/*; do
+  #  install -D -t $pkgdir/opt/srilm/bin $$f
+  #done
+  #for f in bin/linux/*; do
+  #  install -D -t $pkgdir/opt/srilm/bin/linux $$f
+  #done
+  #for f in include/*.h; do
+  #  install -D -t $pkgdir/opt/srilm/include $$f
+  #done
+  #for f in lib/linux/*.a; do
+  #  install -D -t $pkgdir/opt/srilm/lib $$f
+  #done
+}
