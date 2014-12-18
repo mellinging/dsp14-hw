@@ -10,7 +10,7 @@ license=('custom: Proprietary')
 provides=(srilm)
 depends=(tcl)
 makedepends=('gcc-multilib')
-options=()
+options=(staticlibs)
 source=('http://speech.ee.ntu.edu.tw/homework/DSP_HW3/srilm-1.5.10.tar.gz')
 sha1sums=('f3b8a03ebb86d354a719973778af52388603cfe2')
 conflicts=(srilm)
@@ -23,8 +23,8 @@ build() {
   # make the stuff
   cd ${srcdir}/srilm-${pkgver}
   export SRILM=$srcdir/srilm-$pkgver
-  make World MACHINE_TYPE=linux
-  make cleanest MACHINE_TYPE=linux
+  make MACHINE_TYPE=linux World
+  make MACHINE_TYPE=linux cleanest
 }
 
 package() {

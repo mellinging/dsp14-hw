@@ -13,7 +13,7 @@
 #
 
    # Use the GNU C compiler.
-   GCC_FLAGS = -Wreturn-type -Wimplicit -Wformat
+   GCC_FLAGS = -Wreturn-type -Wformat
    CC = $(GCC_PATH)gcc $(GCC_FLAGS)
    CXX = $(GCC_PATH)g++ $(GCC_FLAGS) -DINSTANTIATE_TEMPLATES
 
